@@ -3,7 +3,7 @@
 > 전체적인 RxSwift 흐름과 주요 개념에 대해 빠르게 알아보며 기반을 다지기 위한 혼스터디🤓 <br>
 > 기간 (예상) : 3월 18일 ~ 3월 31일
 ## 🙏🏻 Reference
-- [ReactiveX 공식 사이트](http://reactivex.io/)
+- ReactiveX 공식 사이트 문서들
     - [Docs > Observable](http://reactivex.io/documentation/observable.html)
     - [Docs > Operators](http://reactivex.io/documentation/operators.html)
     - [Docs > Scheduler](http://reactivex.io/documentation/scheduler.html)
