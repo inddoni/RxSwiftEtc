@@ -29,12 +29,14 @@ class RxSwiftViewController: UIViewController {
 
     // MARK: - IBAction
 
-    var disposable: Disposable?
+    // var disposable: Disposable?
+    var disposeBag: DisposeBag = DisposeBag()
     
     @IBAction func onLoadImage(_ sender: Any) {
         imageView.image = nil
 
-        disposable = rxswiftLoadImage(from: LARGER_IMAGE_URL)
+        // let disposable = rxswiftLoadImage(from: LARGER_IMAGE_URL)
+        rxswiftLoadImage(from: LARGER_IMAGE_URL)
             .observeOn(MainScheduler.instance)
             .subscribe({ result in
                 switch result {
@@ -48,12 +50,20 @@ class RxSwiftViewController: UIViewController {
                     break
                 }
             })
+            .disposed(by: disposeBag)
+            // DisposeBag 처리방법 2. 굳이 변수를 쓰지 않고 삭제할 수 있는 방법!
+        // disposeBag.insert(disposable) // DisposeBag 처리방법 1.
     }
 
     @IBAction func onCancel(_ sender: Any) {
         // TODO: cancel image loading
-        disposable?.dispose()
+        
+        // disposable?.dispose()
         // 생성 된 옵져버블이 동작하고 있는 동안(image loading)의 작업을 dispose 시킬 수 있다.
+        
+        disposeBag = DisposeBag()
+        // disposeBag은 .dispose() 같이 삭제해주는 메소드가 없다.
+        // 대신 새로 disposeBag()을 만들어주면 삭제해주는 역할 (초기화)
     }
 
     // MARK: - RxSwift
