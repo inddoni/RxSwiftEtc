@@ -3,6 +3,11 @@
 > 전체적인 RxSwift 흐름과 주요 개념에 대해 빠르게 알아보며 기반을 다지기 위한 혼스터디🤓 <br>
 > 기간 (예상) : 3월 18일 ~ 3월 31일
 ## 🙏🏻 Reference
+- [ReactiveX 공식 사이트](http://reactivex.io/)
+    - [Docs > Observable](http://reactivex.io/documentation/observable.html)
+    - [Docs > Operators](http://reactivex.io/documentation/operators.html)
+    - [Docs > Scheduler](http://reactivex.io/documentation/scheduler.html)
+    - [Docs > Subject](http://reactivex.io/documentation/subject.html)
 - 유튜브 곰튀김 채널 `RxSwift 4시간만에 끝내기(종합편)` ([재생목록](https://youtu.be/w5Qmie-GbiA)) <br>
 - **실습자료** RxSwift 4시간만에 끝내기 Repository ([바로가기](https://github.com/iamchiwon/RxSwift_In_4_Hours.git))
 
