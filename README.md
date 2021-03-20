@@ -8,6 +8,7 @@
     - [Docs > Operators](http://reactivex.io/documentation/operators.html)
     - [Docs > Scheduler](http://reactivex.io/documentation/scheduler.html)
     - [Docs > Subject](http://reactivex.io/documentation/subject.html)
+    - [RxMarble Diagram](https://rxmarbles.com/) 공식 홈페이지 
 - 유튜브 곰튀김 채널 `RxSwift 4시간만에 끝내기(종합편)` ([재생목록](https://youtu.be/w5Qmie-GbiA)) <br>
 - **실습자료** RxSwift 4시간만에 끝내기 Repository ([바로가기](https://github.com/iamchiwon/RxSwift_In_4_Hours.git))
 
@@ -16,5 +17,8 @@
 No. | Date | Lesson | Check
 :---------:|:----------:|---------|:---------:
  1 | 3/18(목) | ReactiveX, Async처리와 Observable | ✅
- 2 | 3/19(금) | Disposable, DisposeBag, 기본 Operator, Operator 종류들 |
- 3 | 3/20(토) | Marble Diagram 이해하기, Next/Error/Completed, Sceduler, RxSwift 응용해보기, Subject, 확장라이브러리들 그리고 마무리 |
+ 2 | 3/19(금) | Disposable, DisposeBag, 기본 Operator, Operator 종류들 | ✅
+ 3 | 3/20(토) | Marble Diagram 이해하기, Next/Error/Completed, Sceduler, RxSwift 응용해보기, Subject, 확장라이브러리들 그리고 마무리 | 
+
+ ## 알게된 것 정리
+ 
