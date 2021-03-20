@@ -86,11 +86,50 @@ class ViewController: UITableViewController {
             .map { URL(string: $0) } // URL?
             .filter { $0 != nil } // nil이 아닐때만 True
             .map { $0! } // URL!, 강제 unwrapping(!), error 안남 (위에 .filter로 인해 nil값 안내려오니까)
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .default))
             .map { try Data(contentsOf: $0) } // URL에 있는 내용을 받은 Data
             .map { UIImage(data: $0) } // Data로 UIImage 객체 생성, UIImage?
+            .observeOn(MainScheduler.instance)
+            .do(onNext: { image in
+                    print(image?.size)}) // side-effect 예방을 위한 장치로, 거치도록 함으로써 안정성 확보
             .subscribe(onNext: { image in // image == UIImage?
-                self.imageView.image = image
+                self.imageView.image = image // side-effect 발생할 가능성 있는 부분
             })
+            .disposed(by: disposeBag)
+    }
+    
+    func exJust3() {
+        // create new Observable Stream
+        Observable.just("Hello world")
+        // map, filter 등 내가 원하는 형태로 데이터를 가공 후 이제 이걸(최종본으)로 쓸거야! == subscribe
+            .subscribe { event in
+                switch event {
+                case .next(let str):
+                    print("next: \(str)")
+                    break
+                case .error(let str):
+                    print("error: \(str.localizedDescription)")
+                    break
+                case .completed:
+                    print("completed")
+                    break
+                }
+            } // subscribe의 리턴타입은 Dispose (다른 oprator의 리턴타입은 대부분 observablestream
+            .disposed(by: disposeBag)
+    }
+    
+    func output(_ any: Any) -> Void {
+        print(any)
+    }
+    
+    func exFrom2() {
+        // create new Observable Stream
+        Observable.from(["Rxswift", "In", 4, "Hours"])
+            .single()
+            .subscribe(onNext: output,
+                       onCompleted: { print("completed")},
+                       onDisposed:{ print("disposed")}) // complete난 경우, error난 경우 모두 호출
+            // 이건 내가 처리할 애(ex, next만 처리할래!)만 골라서 처리해줄수있어서 좀 더 간편함
             .disposed(by: disposeBag)
     }
 }
