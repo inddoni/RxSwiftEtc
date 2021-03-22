@@ -18,7 +18,9 @@ No. | Date | Lesson | Check
 :---------:|:----------:|---------|:---------:
  1 | 3/18(목) | ReactiveX, Async처리와 Observable | ✅
  2 | 3/19(금) | Disposable, DisposeBag, 기본 Operator, Operator 종류들 | ✅
- 3 | 3/20(토) | Marble Diagram 이해하기, Next/Error/Completed, Sceduler, RxSwift 응용해보기, Subject, 확장라이브러리들 그리고 마무리 | 
+ 3 | 3/20(토) | Marble Diagram 이해하기, Next/Error/Completed, Sceduler, RxSwift 응용해보기 | ✅ 
+ 4 | 3/22(월) | Subject, 확장라이브러리들 그리고 마무리 | ✅
 
  ## 알게된 것 정리
+ 
  
