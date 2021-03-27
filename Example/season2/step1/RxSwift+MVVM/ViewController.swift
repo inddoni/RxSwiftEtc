@@ -12,6 +12,17 @@ import UIKit
 
 let MEMBER_LIST_URL = "https://my.api.mockaroo.com/members_with_avatar.json?key=44ce18f0"
 
+//class 나중에생기는데이터
+class observable<T> {
+    private let task: (@escaping (T) -> Void) -> Void
+    init(task: @escaping (@escaping (T) -> Void) -> Void) {
+        self.task = task
+    }
+    // func 나중에오면
+    func subscribe(_ f: @escaping(T) -> Void){
+        task(f)
+    }
+}
 class ViewController: UIViewController {
     @IBOutlet var timerLabel: UILabel!
     @IBOutlet var editView: UITextView!
@@ -32,6 +43,13 @@ class ViewController: UIViewController {
         })
     }
 
+    // Promisekit : .then으로 비동기 클로저 결과(나중에 생기는 데이터) 받아와서 처리
+    // Bolt : .then으로 비동기 클로저 결과(나중에 생기는 데이터) 받아와서 처리
+    // RxSwift : subscribe으로 비동기 클로저 결과(나중에 생기는 데이터 == observable) 받아와서 처리
+    //           observable은 event로 동작한다! (onNext 등으로 이벤트를 발생시켜서 데이터를 전달함)
+    //           case next, error, completed
+    //           비동기로 생기는 결과값을 completion같은 클로저로 전달하는 것이 아니라 리턴값으로 전달하기 위해서 만든 라이브러리
+    
     // MARK: SYNC
 
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -56,5 +74,8 @@ class ViewController: UIViewController {
             self.editView.text = json
             self.setVisibleWithAnimation(self.activityIndicator, false)
         }
+        // 이렇게 비동기처리를 해주면 안좋은 점
+        // completion(클로저)으로 전달을 해주니까 그 자리에서 바로 사용해야 하고,
+        // 에러나 예외케이스 처리나 변환 등의 처리를 해주는 것이 어렵다. (변수로 받아오는 것처럼 하면 핸들링 편한데,,)
     }
 }
