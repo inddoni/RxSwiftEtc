@@ -100,4 +100,9 @@ class ViewController: UIViewController {
             }
         
     }
+    
+    // RxSwift 사용법
+    // 1. 비동기로 생기는 데이터를 Observable로 감싸서 리턴하는 방법 : .create(), .onNext() - 데이터를 전달, .onCompleted() - 데이터 전달이 끝났다
+    // 2. Observable로 오는 데이터를 받아서 처리하는 방법 : .subscribe, switch event
+    
 }
