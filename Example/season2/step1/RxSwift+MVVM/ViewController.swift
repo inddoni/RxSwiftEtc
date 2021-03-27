@@ -55,13 +55,26 @@ class ViewController: UIViewController {
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     // @escaping : 본체함수가 끝나고 나서 실행되는 함수부분에 써주는 것
-    func downloadJson(_ url: String, _ completion: @escaping (String?) -> Void) {
-        DispatchQueue.global().async {
-            let url = URL(string: url)!
-            let data = try! Data(contentsOf: url)
-            let json = String(data: data, encoding: .utf8)
-            DispatchQueue.main.async {
-                completion(json)
+//    func downloadJson(_ url: String, _ completion: @escaping (String?) -> Void) {
+//        DispatchQueue.global().async {
+//            let url = URL(string: url)!
+//            let data = try! Data(contentsOf: url)
+//            let json = String(data: data, encoding: .utf8)
+//            DispatchQueue.main.async {
+//                completion(json)
+//            }
+//        }
+//    }
+    
+    func downloadJson(_ url: String) -> observable<String?> {
+        return observable() { f in
+            DispatchQueue.global().async {
+                let url = URL(string: url)!
+                let data = try! Data(contentsOf: url)
+                let json = String(data: data, encoding: .utf8)
+                DispatchQueue.main.async {
+                    f(json)
+                }
             }
         }
     }
@@ -70,12 +83,21 @@ class ViewController: UIViewController {
         editView.text = ""
         setVisibleWithAnimation(activityIndicator, true)
         
-        downloadJson(MEMBER_LIST_URL) { json in
-            self.editView.text = json
-            self.setVisibleWithAnimation(self.activityIndicator, false)
-        }
+        // @escaping 으로 비동기 처리했을 때 코드
+//        downloadJson(MEMBER_LIST_URL) { json in
+//            self.editView.text = json
+//            self.setVisibleWithAnimation(self.activityIndicator, false)
+//        }
         // 이렇게 비동기처리를 해주면 안좋은 점
         // completion(클로저)으로 전달을 해주니까 그 자리에서 바로 사용해야 하고,
         // 에러나 예외케이스 처리나 변환 등의 처리를 해주는 것이 어렵다. (변수로 받아오는 것처럼 하면 핸들링 편한데,,)
+        
+        // rxswift로 비동기 처리했을 때 코드
+        downloadJson(MEMBER_LIST_URL)
+            .subscribe { json in
+            self.editView.text = json
+            self.setVisibleWithAnimation(self.activityIndicator, false)
+            }
+        
     }
 }
