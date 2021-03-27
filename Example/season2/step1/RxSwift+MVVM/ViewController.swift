@@ -66,15 +66,42 @@ class ViewController: UIViewController {
 //        }
 //    }
     
-    func downloadJson(_ url: String) -> observable<String?> {
-        return observable() { f in
-            DispatchQueue.global().async {
-                let url = URL(string: url)!
-                let data = try! Data(contentsOf: url)
-                let json = String(data: data, encoding: .utf8)
-                DispatchQueue.main.async {
-                    f(json)
+    // RxSwift 비동기 처리 연습
+//    func downloadJson(_ url: String) -> observable<String?> {
+//        return observable() { f in
+//            DispatchQueue.global().async {
+//                let url = URL(string: url)!
+//                let data = try! Data(contentsOf: url)
+//                let json = String(data: data, encoding: .utf8)
+//                DispatchQueue.main.async {
+//                    f(json)
+//                }
+//            }
+//        }
+//    }
+    
+    // RxSwift 사용법 진짜 실습
+    // 1. 비동기로 생기는 데이터를 Observable로 감싸서 리턴하는 방
+    func downloadJson(_ url: String) -> Observable<String?>{
+        return Observable.create() { emitter in
+            let url = URL(string: url)!
+            let task = URLSession.shared.dataTask(with: url) {(data, _, err) in
+                guard err == nil else {
+                    emitter.onError(err!)
+                    return
                 }
+                
+                if let dat = data, let json = String(data: dat, encoding: .utf8) {
+                    emitter.onNext(json)
+                }
+                
+                emitter.onCompleted()
+            }
+            
+            task.resume()
+            
+            return Disposables.create() {
+                task.cancel()
             }
         }
     }
@@ -92,11 +119,26 @@ class ViewController: UIViewController {
         // completion(클로저)으로 전달을 해주니까 그 자리에서 바로 사용해야 하고,
         // 에러나 예외케이스 처리나 변환 등의 처리를 해주는 것이 어렵다. (변수로 받아오는 것처럼 하면 핸들링 편한데,,)
         
-        // rxswift로 비동기 처리했을 때 코드
+        // rxswift로 비동기 처리했을 때 코드 (연습 코드)
+//        downloadJson(MEMBER_LIST_URL)
+//            .subscribe { json in
+//            self.editView.text = json
+//            self.setVisibleWithAnimation(self.activityIndicator, false)
+//            }
+        
+        // 진짜 RxSwift 실습
+        // 2. Observable로 오는 데이터를 받아서 처리하는 방법
         downloadJson(MEMBER_LIST_URL)
-            .subscribe { json in
-            self.editView.text = json
-            self.setVisibleWithAnimation(self.activityIndicator, false)
+            .subscribe { event in
+                switch event {
+                case let .next(json):
+                    self.editView.text = json
+                    self.setVisibleWithAnimation(self.activityIndicator, false)
+                case .completed:
+                    break
+                case .error:
+                    break
+                }
             }
         
     }
