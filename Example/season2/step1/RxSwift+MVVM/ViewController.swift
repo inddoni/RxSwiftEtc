@@ -82,7 +82,7 @@ class ViewController: UIViewController {
     
     // RxSwift 사용법 진짜 실습
     // 1. 비동기로 생기는 데이터를 Observable로 감싸서 리턴하는 방
-    func downloadJson(_ url: String) -> Observable<String?>{
+    func downloadJson(_ url: String) -> Observable<String>{
         return Observable.create() { emitter in
             let url = URL(string: url)!
             let task = URLSession.shared.dataTask(with: url) {(data, _, err) in
@@ -128,18 +128,29 @@ class ViewController: UIViewController {
         
         // 진짜 RxSwift 실습
         // 2. Observable로 오는 데이터를 받아서 처리하는 방법
-        downloadJson(MEMBER_LIST_URL)
-            .subscribe { event in
-                switch event {
-                case let .next(json):
-                    self.editView.text = json
-                    self.setVisibleWithAnimation(self.activityIndicator, false)
-                case .completed:
-                    break
-                case .error:
-                    break
-                }
-            }
+//        downloadJson(MEMBER_LIST_URL)
+//            .subscribe { event in
+//                switch event {
+//                case let .next(json):
+//                    self.editView.text = json
+//                    self.setVisibleWithAnimation(self.activityIndicator, false)
+//                case .completed:
+//                    break
+//                case .error:
+//                    break
+//                }
+//            }
+        
+        // Observable Combine 실습
+        let jsonObservable = downloadJson(MEMBER_LIST_URL)
+        let stringObservable = Observable.just("hello injeong")
+        
+        _ = Observable.zip(jsonObservable, stringObservable) { $1 + "\n" + $0 }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { json in
+                self.editView.text = json
+                self.setVisibleWithAnimation(self.activityIndicator, false)
+            })
         
     }
     
