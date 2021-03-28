@@ -26,9 +26,12 @@ No. | Date | Lesson | Check
 
  ## 알게된 것 정리
  ### 1. DisposeBag
- - class로 정의
- - spinlock 상태
+ - class로 정의되어 있음 : call by reference, reference count로 dealloc이 필요
+ - `private var lock = SpinLock()`
+    - spinlock으로 (계속 시도면서 대기) lock 걸어 놓고, dispose insert할 때 점검
  - `private var disposables = [Disposable]()`
     - protocol Disposable { func dispose() }
+- 비우는 방법 : 새 Disposebag()으로 초기화 해주기
+    - `disposeBag = DisposeBag()`
 
  
