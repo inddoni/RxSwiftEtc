@@ -25,5 +25,10 @@ No. | Date | Lesson | Check
  5 | 3/24(수) | **`시즌2 시작`** | 
 
  ## 알게된 것 정리
- 
+ ### 1. DisposeBag
+ - class로 정의
+ - spinlock 상태
+ - `private var disposables = [Disposable]()`
+    - protocol Disposable { func dispose() }
+
  
